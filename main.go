@@ -45,7 +45,7 @@ func connectDB() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Connected to MongoDB!")
+	fmt.Println("Welcome to Lets' Go !")
 }
 
 func disconnectDB() {
