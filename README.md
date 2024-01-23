@@ -1,21 +1,21 @@
-# Lets - Command Line Messaging Platform
+# Lets' Go - Command Line Messaging Platform
 
-GoMsg is a simple command line messaging platform written in Go. It allows you to send and receive messages through the terminal.
+Lets' Go is a simple command line messaging platform written in Go. It allows you to send and receive messages through the terminal.
 
 ## Installation
 
-### Option 1: Basic Installation
+### Option 1: Manual Installation
 
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/gomsg.git
+   git clone https://github.com/PranaySiddharthBhange/letsgo.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd gomsg
+   cd letsgo
    ```
 
 3. Run the main application:
@@ -28,13 +28,13 @@ GoMsg is a simple command line messaging platform written in Go. It allows you t
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/gomsg.git
+   git clone https://github.com/PranaySiddharthBhange/letsgo.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd gomsg
+   cd letsgo
    ```
 
 3. Give execute permission to the `letsgo.sh` script:
@@ -51,11 +51,25 @@ GoMsg is a simple command line messaging platform written in Go. It allows you t
 
    After this, you can use the custom command by typing `letsgo` in the terminal.
 
+### Option 3: Docker Installation
+
+1. Pull the image from Docker Hub:
+
+   ```bash
+   docker pull pranaybhange/letsgo
+   ```
+
+2. Run the image:
+
+   ```bash
+   docker run -i pranaybhange/letsgo
+   ```
+
 ## Features
 
 1. **Create an Account**
 
-   - Use GoMsg to create a user account with a unique username and password.
+   - Use Lets' Go to create a user account with a unique username and password.
 
 2. **Send Messages**
 
@@ -63,10 +77,12 @@ GoMsg is a simple command line messaging platform written in Go. It allows you t
 
 3. **Receive Messages**
    - Receive and view messages sent to your account.
+4. **Ping Me**
+   - username : pranay
 
 ## Prerequisites
 
-Ensure that you have Git and Go installed on your device before using GoMsg.
+Ensure that you have Git and Go installed on your device before using Option 1 and 2.
 
 ```bash
 # Install Git
@@ -79,17 +95,4 @@ sudo apt-get install git
 
 **Note:** Message and password encryption are not implemented yet. Exercise caution when using this tool for sensitive information.
 
-## Additional Information
-
-Feel free to contribute to the project by submitting issues or pull requests. Your feedback and contributions are highly appreciated!
-
-**Author:** Your Name
-
-**Contact:** your.email@example.com
-
-**License:** This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-```
-
-This new section under "Features" highlights the main functionalities of your messaging platform. Feel free to customize the descriptions to better fit the specifics of your project.
-```
+Feel free to contribute to the project by submitting issues or pull requests.
