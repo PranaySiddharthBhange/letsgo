@@ -184,8 +184,9 @@ func viewMessages(username string) {
 
 	for _, msg := range messages[username] {
 		printDecoratedMessage(msg)
-		// fmt.Printf("[%s] %s: %s\n", msg.Time.Format("2006-01-02 15:04:05"), msg.From, msg.Message)
 	}
+	messages[username] = nil
+
 }
 
 func printDecoratedMessage(msg Message) {
