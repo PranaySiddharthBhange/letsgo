@@ -125,12 +125,13 @@ func loginUser(username, password string) bool {
 
 func sendMessage(from, to, message string) {
 	if !userExists(from) {
-		fmt.Println("Error: Sender username does not exist.")
+		fmt.Println("       ❗ Sender username does not exist ")
 		return
 	}
 
 	if !userExists(to) {
-		fmt.Println("Error: Recipient username does not exist.")
+		fmt.Println("       ❗ Recipient username does not exist ")
+
 		return
 	}
 
@@ -147,8 +148,8 @@ func sendMessage(from, to, message string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("       ✅ Message sent to", to)
 
-	fmt.Println("Message sent successfully.")
 }
 
 func viewMessages(username string) {
@@ -174,11 +175,33 @@ func viewMessages(username string) {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Messages for", username+":")
+	fmt.Println("                                 ")
+	fmt.Println("                                 ")
+	fmt.Println("                                 ")
+
+	fmt.Println("       Messages for", username+":")
+	fmt.Println("                                 ")
+
 	for _, msg := range messages[username] {
-		fmt.Printf("[%s] %s: %s\n", msg.Time.Format("2006-01-02 15:04:05"), msg.From, msg.Message)
+		printDecoratedMessage(msg)
+		// fmt.Printf("[%s] %s: %s\n", msg.Time.Format("2006-01-02 15:04:05"), msg.From, msg.Message)
 	}
 }
+
+func printDecoratedMessage(msg Message) {
+	// Format the time in a specific way with color
+
+	timeStr := "\033[1;34m" + msg.Time.Format(" Mon, Jan 2 15:04 ") + "\033[0m" // Bold Blue
+
+	// Define colors and formatting
+
+	colorFrom := "\033[1;32m" // Bold Green
+	colorReset := "\033[0m"   // Reset to default
+
+	// Print the decorated message
+	fmt.Printf("       [%s] %s%s%s: %s\n", timeStr, colorFrom, msg.From, colorReset, msg.Message)
+}
+
 func userExists(username string) bool {
 	collection := client.Database(dbName).Collection(colName)
 
@@ -295,10 +318,12 @@ func main() {
 			if currentUser == "" {
 
 				var username, password string
-				fmt.Print("Enter your username: ")
+				fmt.Print("       🔖 Enter your Username : ")
 				fmt.Scan(&username)
-				fmt.Print("Enter your password: ")
+				fmt.Println("                                 ")
+				fmt.Print("       💀 Enter your Password : ")
 				fmt.Scan(&password)
+				fmt.Println("                                 ")
 
 				if loginUser(username, password) {
 					currentUser = username
