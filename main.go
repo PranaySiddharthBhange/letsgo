@@ -14,12 +14,15 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+var currentUser string
+
 var (
-	client *mongo.Client
-	dbName = "messanger"
-	colName = "users"
-    messages = make(map[string][]Message)
+	client   *mongo.Client
+	dbName   = "messanger"
+	colName  = "users"
+	messages = make(map[string][]Message)
 )
+
 type Message struct {
 	From    string    `bson:"from"`
 	To      string    `bson:"to"`
@@ -43,9 +46,14 @@ func connectDB() {
 	err = client.Ping(context.Background(), nil)
 	if err != nil {
 		log.Fatal(err)
+
 	}
 
-	fmt.Println("Welcome to Lets' Go !")
+	fmt.Println("                                 ")
+	fmt.Println("                                 ")
+	fmt.Println("                                 ")
+	fmt.Println("      Welcome to Let's Go! 🚀     ")
+	fmt.Println("                                 ")
 }
 
 func disconnectDB() {
@@ -84,14 +92,18 @@ func createUser(username, password string) {
 	if err != nil {
 		// Check for duplicate key error and handle accordingly
 		if strings.Contains(err.Error(), "duplicate key error") {
-			fmt.Println("Error: Username already exists. Please choose a different username.")
+			fmt.Println("       ❗ Username already exists choose a different username                  ")
+
 		} else {
 			log.Fatal(err)
 		}
 		return
 	}
 
-	fmt.Println("User created successfully.")
+	currentUser = username
+
+	fmt.Println("       ✅ Logged In as", currentUser)
+
 }
 
 func loginUser(username, password string) bool {
@@ -101,11 +113,13 @@ func loginUser(username, password string) bool {
 	err := collection.FindOne(context.Background(), filter).Err()
 
 	if err != nil {
-		fmt.Println("Login failed. Incorrect username or password.")
+		fmt.Println("       ❗ Login failed. Incorrect username or password  ")
 		return false
 	}
 
-	fmt.Println("Login successful.")
+	currentUser = username
+
+	fmt.Println("       ✅ Logged In as", currentUser)
 	return true
 }
 
@@ -136,7 +150,6 @@ func sendMessage(from, to, message string) {
 
 	fmt.Println("Message sent successfully.")
 }
-
 
 func viewMessages(username string) {
 	collection := client.Database(dbName).Collection("messages")
@@ -176,90 +189,144 @@ func userExists(username string) bool {
 }
 
 func readFullSentence() string {
-    scanner := bufio.NewScanner(os.Stdin)
-    scanner.Scan()
-    return scanner.Text()
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	return scanner.Text()
 }
 
 func main() {
 	connectDB()
 	defer disconnectDB()
 
-	var currentUser string
-
 	for {
-		fmt.Println("Choose an option:")
-		fmt.Println("1. Sign Up")
-		fmt.Println("2. Send Message")
-		fmt.Println("3. View Messages")
-		fmt.Println("4. Logout")
-		fmt.Println("5. Exit")
+
+		fmt.Println("                                 ")
+		fmt.Println("                                 ")
+		fmt.Println("                                 ")
+
+		if currentUser != "" {
+			fmt.Println("       🔍  Choose an option", currentUser)
+		} else {
+			fmt.Println("       🔍  Choose an option       ")
+		}
+
+		fmt.Println("                                 ")
+		fmt.Println("                                 ")
+		fmt.Println("       1️⃣   Sign Up                ")
+		fmt.Println("                                 ")
+
+		fmt.Println("       2️⃣   Send Message           ")
+		fmt.Println("                                 ")
+
+		fmt.Println("       3️⃣   View Messages          ")
+		fmt.Println("                                 ")
+
+		fmt.Println("       4️⃣   Logout                 ")
+		fmt.Println("                                 ")
+
+		fmt.Println("       5️⃣   Exit                   ")
+		fmt.Println("                                 ")
 
 		var choice int
-		fmt.Print("Enter your choice: ")
+		fmt.Println("                                 ")
+		fmt.Print("       🗨️  Enter your choice : ")
 		fmt.Scan(&choice)
+		fmt.Println("                                 ")
+		fmt.Println("                                 ")
 
 		switch choice {
 		case 1:
 			var username, password string
-			fmt.Print("Enter username: ")
+			fmt.Print("       🔖 Username : ")
 			fmt.Scan(&username)
-			fmt.Print("Enter password: ")
+			fmt.Println("                                 ")
+			fmt.Print("       💀 Password : ")
 			fmt.Scan(&password)
+			fmt.Println("                                 ")
+			fmt.Println("                                 ")
 
 			createUser(username, password)
-
 
 		case 2:
 			if currentUser == "" {
 
-			var username, password string
-			fmt.Print("Enter your username: ")
-			fmt.Scan(&username)
-			fmt.Print("Enter your password: ")
-			fmt.Scan(&password)
+				var username, password string
+				fmt.Print("       🔖 Enter your Username : ")
+				fmt.Scan(&username)
+				fmt.Println("                                 ")
 
-			if loginUser(username, password) {
-				currentUser = username
+				fmt.Print("       💀 Enter your Password : ")
+
+				fmt.Scan(&password)
+				fmt.Println("                                 ")
+				fmt.Println("                                 ")
+
+				if loginUser(username, password) {
+					currentUser = username
+					var to, message string
+					fmt.Println("")
+
+					fmt.Println("")
+
+					fmt.Print("       🔖 Enter recipient username : ")
+					fmt.Scan(&to)
+					fmt.Println("")
+					fmt.Print("       ✉️  Enter message : ")
+					message = readFullSentence()
+					fmt.Println("")
+					sendMessage(currentUser, to, message)
+				}
+			} else {
+				var to, message string
+				fmt.Println("")
+
+				fmt.Println("")
+
+				fmt.Print("       🔖 Enter recipient username : ")
+				fmt.Scan(&to)
+				fmt.Println("")
+				fmt.Print("       ✉️  Enter message : ")
+				message = readFullSentence()
+				fmt.Println("")
+				sendMessage(currentUser, to, message)
 			}
-			}
-
-			var to, message string
-			fmt.Print("Enter recipient username: ")
-			fmt.Scan(&to)
-			fmt.Print("Enter message: ")
-            message = readFullSentence()
-
-			sendMessage(currentUser, to, message)
 
 		case 3:
 			if currentUser == "" {
 
-			var username, password string
-			fmt.Print("Enter your username: ")
-			fmt.Scan(&username)
-			fmt.Print("Enter your password: ")
-			fmt.Scan(&password)
+				var username, password string
+				fmt.Print("Enter your username: ")
+				fmt.Scan(&username)
+				fmt.Print("Enter your password: ")
+				fmt.Scan(&password)
 
-			if loginUser(username, password) {
-				currentUser = username
-			}
-		
+				if loginUser(username, password) {
+					currentUser = username
+				}
+
 			}
 
 			viewMessages(currentUser)
- 
-		case 4:
-			currentUser=""
-		    fmt.Print("Logout Successful")
 
+		case 4:
+			currentUser = ""
+			fmt.Println("                                 ")
+			fmt.Println("                                 ")
+			fmt.Println("       ✅ Logged Out ")
 
 		case 5:
-			fmt.Println("Exiting program.")
+			fmt.Println("                                 ")
+			fmt.Println("       Lets' Go 🚀")
+			fmt.Println("                                 ")
+			fmt.Println("                                 ")
+
 			os.Exit(0)
 
 		default:
-			fmt.Println("Invalid choice. Please try again.")
+			fmt.Println("                                 ")
+			fmt.Println("                                 ")
+			fmt.Print("       ❗ Invalid choice ", currentUser)
+
 		}
 
 		time.Sleep(1 * time.Second)
