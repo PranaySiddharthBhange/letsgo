@@ -84,7 +84,6 @@ func createUser(username, password string) {
 
 	collection := client.Database(dbName).Collection(colName)
 
-	// Create a unique index on the 'username' field
 	index := mongo.IndexModel{
 		Keys:    bson.M{"username": 1},
 		Options: options.Index().SetUnique(true),
@@ -119,18 +118,6 @@ func createUser(username, password string) {
 func loginUser(username, password string) bool {
 	collection := client.Database(dbName).Collection(colName)
 
-	// filter := bson.M{"username": username, "password": password}
-	// err := collection.FindOne(context.Background(), filter).Err()
-
-	// if err != nil {
-	// 	fmt.Println("       ❗ Login failed. Incorrect username or password  ")
-	// 	return false
-	// }
-
-	// currentUser = username
-
-	// fmt.Println("       ✅ Logged In as", currentUser)
-	// return true
 	var user User
 
 	filter := bson.M{"username": username}
