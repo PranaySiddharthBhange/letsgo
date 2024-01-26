@@ -53,7 +53,9 @@ func connectDB() {
 	fmt.Println("                                 ")
 	fmt.Println("                                 ")
 	fmt.Println("      Welcome to Let's Go! 🚀     ")
+
 	fmt.Println("                                 ")
+
 }
 
 func disconnectDB() {
@@ -179,7 +181,7 @@ func viewMessages(username string) {
 	fmt.Println("                                 ")
 	fmt.Println("                                 ")
 
-	fmt.Println("       Messages for", username+":")
+	fmt.Printf("        Hello, %s 👋\n", username)
 	fmt.Println("                                 ")
 
 	for _, msg := range messages[username] {
@@ -191,16 +193,32 @@ func viewMessages(username string) {
 
 func printDecoratedMessage(msg Message) {
 	// Format the time in a specific way with color
-
-	timeStr := "\033[1;34m" + msg.Time.Format(" Mon, Jan 2 15:04 ") + "\033[0m" // Bold Blue
+	timeStr := "\033[1;34m" + msg.Time.Format(" Jan 2, 2006 at 3:04pm ") + "\033[0m" // Bold Blue
 
 	// Define colors and formatting
-
 	colorFrom := "\033[1;32m" // Bold Green
 	colorReset := "\033[0m"   // Reset to default
+	// Determine the display name based on whether the message is from the current user
+	var displayName string
+	if msg.From == currentUser {
+		displayName = "you"
+	} else {
+		displayName = msg.From
+	}
 
-	// Print the decorated message
-	fmt.Printf("       [%s] %s%s%s: %s\n", timeStr, colorFrom, msg.From, colorReset, msg.Message)
+	// Determine the recipient display name
+	var recipientDisplayName string
+	if msg.To == currentUser {
+		recipientDisplayName = "you"
+	} else {
+		recipientDisplayName = msg.To
+	}
+
+	// Print the decorated message with sender and recipient information
+	fmt.Printf("\n       ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n")
+	fmt.Printf("       | %s%s %s ─ %s  %s: %s\n", timeStr, colorFrom, displayName, recipientDisplayName, colorReset, msg.Message)
+	fmt.Printf("       └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘\n\n")
+
 }
 
 func userExists(username string) bool {
@@ -219,6 +237,7 @@ func readFullSentence() string {
 }
 
 func main() {
+
 	connectDB()
 	defer disconnectDB()
 
