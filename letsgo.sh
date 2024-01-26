@@ -12,7 +12,7 @@ cd letsgo
 # Build the Go program
 go build -o letsgo main.go
 
-# Move the executable to /bin (requires sudo)
+# Move the executable to /bin 
 sudo mv letsgo /bin
 
 # Return to the /tmp directory

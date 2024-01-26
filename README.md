@@ -51,8 +51,6 @@ Lets' Go is a command line messaging platform written in Go. It allows you to se
    go run main.go
    ```
 
-
-
 ### Option 3: Docker Installation
 
 1. Pull the image from Docker Hub:
@@ -95,6 +93,6 @@ sudo apt-get install git
 # Follow the official Go installation guide: https://golang.org/doc/install
 ```
 
-**Note:** Message and password encryption are not implemented yet. Exercise caution when using this tool for sensitive information.
+**Note:** Message encryption are not implemented yet. Exercise caution when using this tool for sensitive information.
 
 Feel free to contribute to the project by submitting issues or pull requests.
