@@ -12,6 +12,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 var currentUser string
@@ -72,7 +74,13 @@ func disconnectDB() {
 }
 
 func createUser(username, password string) {
-	user := User{Username: username, Password: password}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	user := User{Username: username, Password: string(hashedPassword)}
 
 	collection := client.Database(dbName).Collection(colName)
 
@@ -82,7 +90,7 @@ func createUser(username, password string) {
 		Options: options.Index().SetUnique(true),
 	}
 
-	_, err := collection.Indexes().CreateOne(context.Background(), index)
+	_, err = collection.Indexes().CreateOne(context.Background(), index)
 	if err != nil {
 		// Ignore the error if the index already exists
 		if !strings.Contains(err.Error(), "duplicate key error") {
@@ -111,16 +119,33 @@ func createUser(username, password string) {
 func loginUser(username, password string) bool {
 	collection := client.Database(dbName).Collection(colName)
 
-	filter := bson.M{"username": username, "password": password}
-	err := collection.FindOne(context.Background(), filter).Err()
+	// filter := bson.M{"username": username, "password": password}
+	// err := collection.FindOne(context.Background(), filter).Err()
 
+	// if err != nil {
+	// 	fmt.Println("       ❗ Login failed. Incorrect username or password  ")
+	// 	return false
+	// }
+
+	// currentUser = username
+
+	// fmt.Println("       ✅ Logged In as", currentUser)
+	// return true
+	var user User
+
+	filter := bson.M{"username": username}
+	err := collection.FindOne(context.Background(), filter).Decode(&user)
 	if err != nil {
 		fmt.Println("       ❗ Login failed. Incorrect username or password  ")
 		return false
 	}
 
-	currentUser = username
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		fmt.Println("       ❗ Login failed. Incorrect username or password  ")
+		return false
+	}
 
+	currentUser = username
 	fmt.Println("       ✅ Logged In as", currentUser)
 	return true
 }
