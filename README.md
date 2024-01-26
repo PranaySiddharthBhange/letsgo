@@ -1,29 +1,10 @@
 # Lets' Go - Command Line Messaging Platform
 
-Lets' Go is a simple command line messaging platform written in Go. It allows you to send and receive messages through the terminal.
+Lets' Go is a command line messaging platform written in Go. It allows you to send and receive messages through the terminal.
 
 ## Installation
 
-### Option 1: Manual Installation
-
-1. Clone the repository to your local machine:
-
-   ```bash
-   git clone https://github.com/PranaySiddharthBhange/letsgo.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
-   cd letsgo
-   ```
-
-3. Run the main application:
-   ```bash
-   go run main.go
-   ```
-
-### Option 2: Install as a Custom Command
+### Option 1: Install as a Custom Command
 
 1. Clone the repository to your local machine:
 
@@ -50,6 +31,27 @@ Lets' Go is a simple command line messaging platform written in Go. It allows yo
    ```
 
    After this, you can use the custom command by typing `letsgo` in the terminal.
+
+### Option 2: Manual Installation
+
+1. Clone the repository to your local machine:
+
+   ```bash
+   git clone https://github.com/PranaySiddharthBhange/letsgo.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd letsgo
+   ```
+
+3. Run the main application:
+   ```bash
+   go run main.go
+   ```
+
+
 
 ### Option 3: Docker Installation
 
